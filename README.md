@@ -11,12 +11,20 @@ A python application for keeping track of badminton sessions played with my frie
 ## Project structure
 badminton_app/
 main.py               # Entry point / CLI
+
 sheets.py             # Google Shets read/write operations
+
 session_manager.py    # Session creation and update player stats
+
 players.py            # Player registry and lookups
+
 print_views.py        # Console output formatting
+
 input_handlers.py     # CLI input handling
 
+
 models/
-participant.py        # Participant model
+participant.py        # Participant 
+
+model
 session.py            # Session model

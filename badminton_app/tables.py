@@ -5,7 +5,7 @@ def print_log(session_manager):
         who_booked = ", ".join(sorted(player.name for player in s.who_booked))
         who_played = ", ".join(sorted(player.name for player in s.who_played))
 
-        print(f"{s.date}|{who_booked:15}|{who_played}")
+        print(f"{s.date:8}|{who_booked:15}|{who_played}")
 
     print()
 

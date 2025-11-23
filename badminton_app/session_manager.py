@@ -53,7 +53,22 @@ class SessionManager:
             for player in session.who_booked:
                 player.times_booked += 1
                 player.sessions_booked.append(session.date_datetime)
+                # workaround to ensure sessions since last booking calculated correctly
+                # even when player booked but didn't play
+                if player not in session.who_played:
+                    player.sessions_played.append(session.date_datetime)
 
     def update_all_stats(self):
         for session in self.sessions_sorted:
             self.update_player_stats(session)
+
+    def delete_session(self, session: Session):
+        for player in session.who_played:
+            player.times_played -= 1
+            player.sessions_played.remove(session.date_datetime)
+            
+        for player in session.who_booked:
+            player.times_booked -= 1
+            player.sessions_booked.remove(session.date_datetime)
+
+        self.sessions.remove(session)

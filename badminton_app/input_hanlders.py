@@ -24,3 +24,27 @@ def input_new_session(registry, session_manager):
             tables.print_processed(registry)
 
             break
+
+def modify_session(registry, session_manager):
+    date = input("Enter date or 1 for most recent session: ")
+    if date == "1":
+        session = session_manager.sessions_sorted[0]
+    else:
+        for s in session_manager.sessions:
+            if date == s.date:
+                session = s
+    
+def delete_session(session_manager):   
+    date = input("Enter date or 1 for most recent session: ")
+    if date == "1":
+        session = session_manager.sessions_sorted[0]
+    else:
+        for s in session_manager.sessions:
+            if date == s.date:
+                session = s
+
+    confirmation = input(f"Delete\n{session}?\n(y/n) ").lower()
+    if confirmation == "y":
+        session_manager.delete_session(session)
+        print("Session deleted")
+    
