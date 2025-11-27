@@ -12,7 +12,8 @@ def input_new_session(registry, session_manager):
                 days_ahead = (2 - today.weekday() + 7) % 7
                 days_ahead = 7 if days_ahead == 0 else days_ahead
                 date = today + timedelta(days=days_ahead) 
-                print("Date =",datetime.strftime(date, "%d/%m/%y"))
+                date = datetime.strftime(date, "%d/%m/%y")
+                print(f"Date = {date}")
                 break
             else:
                 try:
@@ -25,14 +26,16 @@ def input_new_session(registry, session_manager):
         booked_raw = input("Who booked (optional, comma seperated):\n").strip()
         booked = booked_raw.split(", ") if booked_raw else []
 
-        cmd = input("Commit? [y/n] ").lower()
-        if cmd == "y":
+        cmd = input("0=exit, 1=commit, 2=reject ")
+        if cmd == "0":
             new_session = session_manager.new_session(date, played, booked)
             session_manager.update_player_stats(registry, new_session)
         
             #tables.print_log(session_manager)
             tables.print_processed(registry)
 
+            break
+        if cmd == "2":
             break
 
 def session_selector(session_manager):
@@ -66,8 +69,14 @@ def modify_session(registry, session_manager):
     while True:
         print("Enter fields to change their value. Enter or delete players by entering their name.")
         date = input("Date (dd/mm/yy): ")
+        if date == "0":
+            break
         booked = input("Who booked: ").strip().split(", ")
+        if booked == "0":
+            break
         played = input("Who played: ").strip().split(", ")
+        if played == "0":
+            break
 
         selected_who_played = [p.name for p in selected.who_played]
         selected_who_booked = [p.name for p in selected.who_booked]
