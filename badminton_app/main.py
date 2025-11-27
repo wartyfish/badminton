@@ -9,8 +9,6 @@ def main():
     registry = PlayerRegistry()
     session_manager = SessionManager(registry)
 
-    
-
     log, processed = sheets.load_sheets()
     sheets.read_sessions_from_sheets(log, session_manager)
     print("Success\n")
