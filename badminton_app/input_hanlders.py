@@ -31,7 +31,7 @@ def input_new_session(registry, session_manager):
             new_session = session_manager.new_session(date, played, booked)
             session_manager.update_player_stats(registry, new_session)
         
-            #tables.print_log(session_manager)
+            tables.print_log(session_manager)
             tables.print_processed(registry)
 
             break

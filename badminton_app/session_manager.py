@@ -9,7 +9,7 @@ class SessionManager:
     @property
     def sessions_sorted(self):
         if len(self.sessions) > 0:
-            return sorted(self.sessions, key=lambda s: s.date_datetime, reverse=True)
+            return sorted(self.sessions, key=lambda s: s.date_datetime)
         else:
             return self.sessions
 
@@ -64,6 +64,7 @@ class SessionManager:
     def update_all_player_stats(self, registry):
         for session in self.sessions_sorted:
             self.update_player_stats(registry, session)
+            print(session)
 
     def reset_all_player_stats(self, registry):
         for player in registry.players:
