@@ -9,13 +9,13 @@ def main():
     registry = PlayerRegistry()
     session_manager = SessionManager(registry)
 
-    print("Fetching data from Google Sheets... ",end="")
+    
 
     log, processed = sheets.load_sheets()
     sheets.read_sessions_from_sheets(log, session_manager)
-    print("Success.\n")
+    print("Success\n")
 
-    session_manager.update_all_stats()
+    session_manager.update_all_player_stats(registry)
 
     tables.print_log(session_manager)
     tables.print_processed(registry)
@@ -35,9 +35,8 @@ def main():
             input_hanlders.delete_session(session_manager)
             tables.print_log(session_manager)
             tables.print_processed(registry)
-
-        
     
 
 if __name__ == "__main__":
+    print("Fetching data from Google Sheets... ")
     main()

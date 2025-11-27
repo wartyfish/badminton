@@ -1,4 +1,5 @@
 from models.session import Session
+from prompt_toolkit.shortcuts import radiolist_dialog
 
 class SessionManager:
     def __init__(self, registry):
@@ -31,7 +32,7 @@ class SessionManager:
 
         return session
 
-    def update_player_stats(self, session: Session):
+    def update_player_stats(self, registry, session: Session):
         if len(session.who_booked) == 0:
             to_book = [
                 player for player in sorted(
@@ -45,7 +46,9 @@ class SessionManager:
             return 
         
         # update stats if players have booked
-        else:
+        else:  
+            for player in registry.players:
+                player.due_to_book = ""
             for player in session.who_played:
                 player.times_played += 1
                 player.sessions_played.append(session.date_datetime)
@@ -58,17 +61,30 @@ class SessionManager:
                 if player not in session.who_played:
                     player.sessions_played.append(session.date_datetime)
 
-    def update_all_stats(self):
+    def update_all_player_stats(self, registry):
         for session in self.sessions_sorted:
-            self.update_player_stats(session)
+            self.update_player_stats(registry, session)
+
+    def reset_all_player_stats(self, registry):
+        for player in registry.players:
+            registry.reset_player(player)
+
 
     def delete_session(self, session: Session):
         for player in session.who_played:
             player.times_played -= 1
-            player.sessions_played.remove(session.date_datetime)
+            try:
+                player.sessions_played.remove(session.date_datetime)
+            except:
+                pass
             
         for player in session.who_booked:
             player.times_booked -= 1
-            player.sessions_booked.remove(session.date_datetime)
+            try:
+                player.sessions_booked.remove(session.date_datetime)
+            except:
+                pass
 
         self.sessions.remove(session)
+
+    

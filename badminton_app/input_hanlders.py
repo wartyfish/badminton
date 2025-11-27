@@ -1,15 +1,25 @@
 import datetime
 import tables
+import tables
+from datetime import datetime, timedelta
 
 def input_new_session(registry, session_manager):
     while True:
         while True:
-            date = input("Date (dd/mm/yy): ")
-            try:
-                datetime.datetime.strptime(date, "%d/%m/%y")
+            date = input("Input date: (dd/mm/yy), or press 1 for next Wed: ")
+            if date == "1":
+                today = datetime.today()
+                days_ahead = (2 - today.weekday() + 7) % 7
+                days_ahead = 7 if days_ahead == 0 else days_ahead
+                date = today + timedelta(days=days_ahead) 
+                print("Date =",datetime.strftime(date, "%d/%m/%y"))
                 break
-            except:
-                print("Date must be dd/mm/yy")
+            else:
+                try:
+                    datetime.strptime(date, "%d/%m/%y")
+                    break
+                except:
+                    print("Date must be dd/mm/yy")
         
         played = input("Who played (comma seperated):\n").split(", ")
         booked_raw = input("Who booked (optional, comma seperated):\n").strip()
@@ -18,33 +28,119 @@ def input_new_session(registry, session_manager):
         cmd = input("Commit? [y/n] ").lower()
         if cmd == "y":
             new_session = session_manager.new_session(date, played, booked)
-            session_manager.update_player_stats(new_session)
+            session_manager.update_player_stats(registry, new_session)
         
+            #tables.print_log(session_manager)
+            tables.print_processed(registry)
+
+            break
+
+def session_selector(session_manager):
+    numbered_sessions = dict(zip(range(1, len(session_manager.sessions_sorted)+1), session_manager.sessions_sorted))
+
+    print("Select session to modify:")
+    tables.print_log_numbered(session_manager)
+    print("0=exit")
+
+    # validate input
+    while True:
+        select = input()
+        try:
+            select = int(select)
+            if select in numbered_sessions:
+                selected_session = numbered_sessions[select]
+                break
+            else:
+                print("Session not found")
+        except ValueError:
+            print("Input integer")
+    
+    return selected_session
+
+def modify_session(registry, session_manager):
+    selected = session_selector(session_manager)
+    
+    print()
+    print(selected)
+    print()
+    while True:
+        print("Enter fields to change their value. Enter or delete players by entering their name.")
+        date = input("Date (dd/mm/yy): ")
+        booked = input("Who booked: ").strip().split(", ")
+        played = input("Who played: ").strip().split(", ")
+
+        selected_who_played = [p.name for p in selected.who_played]
+        selected_who_booked = [p.name for p in selected.who_booked]
+
+        print()
+        print("Changes: ")
+        if date != "":
+            try:
+                datetime.datetime.strptime(date, "%d/%m/%y")
+                print(f"{selected.date} → {date}")
+            except:
+                print("Date must be dd/mm/yy")
+        else:
+            date = selected.date
+
+        if len(booked) > 0:
+            added_b   = [p for p in booked if p not in selected_who_booked]
+            if added_b[0] == "":
+                added_b.clear()
+            removed_b = [p for p in booked if p in selected_who_booked]
+
+            if len(added_b) > 0:
+                print(f"Who booked: + {", ".join(p for p in added_b)}")
+            if len(removed_b) > 0:
+                print(f"Who booked: - {", ".join(p for p in removed_b)}")
+        
+        if len(played) > 0:
+            added_p =   [p for p in played if p not in selected_who_played]
+            if added_p[0] == "":
+                added_p.clear()
+            removed_p = [p for p in played if p in selected_who_played]
+
+            if len(added_p) > 0:
+                print(f"Who played: + {", ".join(p for p in added_p)}")
+            if len(removed_p) > 0:
+                print(f"Who played: - {", ".join(p for p in removed_p)}")        
+
+        cmd = input("0=exit, 1=commit, 2=reject ")
+
+        if cmd == "0":
+            break
+        if cmd == "1":
+            new_booked = [p.name for p in selected.who_booked] + added_b
+            for p in removed_b:
+                if p in new_booked:
+                    new_booked.remove(p)
+                    print(p, "removed")
+
+            new_played = [p.name for p in selected.who_played] + added_p
+            for p in removed_p:
+                if p in new_played:
+                    new_played.remove(p)
+                    print(p,"removed")
+
+            session_manager.delete_session(selected)
+
+            new_session = session_manager.new_session(date, new_played, new_booked)
+
+            session_manager.reset_all_player_stats(registry)
+            session_manager.update_all_player_stats(registry)
+
             tables.print_log(session_manager)
             tables.print_processed(registry)
 
             break
 
-def modify_session(registry, session_manager):
-    date = input("Enter date or 1 for most recent session: ")
-    if date == "1":
-        session = session_manager.sessions_sorted[0]
-    else:
-        for s in session_manager.sessions:
-            if date == s.date:
-                session = s
     
-def delete_session(session_manager):   
-    date = input("Enter date or 1 for most recent session: ")
-    if date == "1":
-        session = session_manager.sessions_sorted[0]
-    else:
-        for s in session_manager.sessions:
-            if date == s.date:
-                session = s
-
-    confirmation = input(f"Delete\n{session}?\n(y/n) ").lower()
+def delete_session(session_manager): 
+    selected = session_selector(session_manager)  
+        
+    confirmation = input(f"Delete\n{selected}?\n(y/n) ").lower()
+    print()
     if confirmation == "y":
-        session_manager.delete_session(session)
-        print("Session deleted")
+        session_manager.delete_session(selected)
+        print("Session deleted.")
     

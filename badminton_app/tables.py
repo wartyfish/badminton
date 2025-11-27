@@ -37,3 +37,15 @@ def print_processed(player_registry):
         print(f"{row[5]:>9}")        
 
     print()
+
+def print_log_numbered(session_manager):
+    n = 1
+
+    for s in session_manager.sessions_sorted:
+        who_booked = ", ".join(sorted(player.name for player in s.who_booked))
+        who_played = ", ".join(sorted(player.name for player in s.who_played))
+
+        print(f"{n}{".":2}{s.date:8}|{who_booked:15}|{who_played}")
+        n += 1
+
+    

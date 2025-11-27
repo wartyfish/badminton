@@ -19,3 +19,10 @@ class PlayerRegistry:
     
     def all(self):
         return self.players
+    
+    def reset_player(self, player: Participant):
+        player.times_played = 0
+        player.times_booked = 0
+        player.sessions_booked.clear()
+        player.sessions_played.clear()
+        player.due_to_book = ""

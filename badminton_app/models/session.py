@@ -8,7 +8,7 @@ class Session:
             self.date_datetime = datetime.datetime.strptime(self.date, "%d/%m/%y")
         except ValueError:
             print("ValueError: failed to assign datetime")
-            self.date_time = datetime.datetime.min
+            self.date_datetime = datetime.datetime.min
         
         self.who_booked = who_booked if who_booked is not None else [""]
         self.who_played = who_played
