@@ -1,13 +1,16 @@
 import gspread
 from google.oauth2.service_account import Credentials
 
-def load_sheets():
+def load_sheets(credentials_path):
     scopes = [
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive"
     ]
 
-    creds = Credentials.from_service_account_file(r"C:\Users\Eem\Documents\API_credentials\badminton_credentials.json", scopes=scopes)
+    try:
+        creds = Credentials.from_service_account_file(credentials_path, scopes=scopes)
+    except Exception as e:
+        raise ValueError("Credentials could not be validated", e)
     client = gspread.authorize(creds)
 
     book = client.open("Badminton Session Log")

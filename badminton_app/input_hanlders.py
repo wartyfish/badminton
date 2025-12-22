@@ -147,9 +147,10 @@ def modify_session(registry, session_manager):
 def delete_session(session_manager): 
     selected = session_selector(session_manager)  
         
-    confirmation = input(f"Delete\n{selected}?\n(y/n) ").lower()
+    confirmation = input(f"0=confirm, 1=reject\n{selected}")
     print()
-    if confirmation == "y":
+    if confirmation == "0":
         session_manager.delete_session(selected)
         print("Session deleted.")
+
     
