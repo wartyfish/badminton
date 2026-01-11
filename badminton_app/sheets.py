@@ -1,7 +1,14 @@
 import gspread
+from dataclasses import dataclass
 from google.oauth2.service_account import Credentials
 
-def load_sheets(credentials_path):
+@dataclass
+class Sheets:
+    current_log: gspread.Worksheet
+    initialising_data: gspread.Worksheet
+    output_table: gspread.Worksheet
+    
+def load_sheets(credentials_path) -> Sheets:
     scopes = [
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive"
@@ -15,10 +22,14 @@ def load_sheets(credentials_path):
 
     book = client.open("Badminton Session Log")
 
-    return book.worksheet("Log"), book.worksheet("Processed")
+    return book.worksheet("2026 Log"), book.worksheet("2025 Log"), book.worksheet("2025 EoY stats")
+       
 
-def read_sessions_from_sheets(sheet, session_manager):
-    data = sheet.get_all_values()[1:] # skip header
+# reads data from gspread.Worksheet objects
+# each row contains info from a different session
+# data from each session is passed individually to session_manager
+def read_sessions_from_sheets(log, session_manager) -> None:
+    data = log.get_all_values()[1:] # skip header
     rows = [value[0:3] for value in data]
     rows = [row for row in rows if any(cell.strip() for cell in row)]
 
@@ -33,12 +44,13 @@ def update_log_sheet(sheet, session_manager):
 
     rows = []
     for s in session_manager.sessions_chronological:
-        rows.append([
-            s.date,
-            ", ".join(sorted([p.name for p in s.who_booked])),
-            ", ".join(sorted([p.name for p in s.who_played]))
-        ])
-    
+        if s.date_datetime.year == 2026:
+            rows.append([
+                s.date,
+                ", ".join(sorted([p.name for p in s.who_booked])),
+                ", ".join(sorted([p.name for p in s.who_played]))
+            ])
+        
     sheet.update("A2", rows)
     
     print("Log updated successfully")

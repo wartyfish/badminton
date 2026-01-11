@@ -15,8 +15,10 @@ def main():
     registry = PlayerRegistry()
     session_manager = SessionManager(registry)
 
-    log, processed = sheets.load_sheets(path_to_credentials)
-    sheets.read_sessions_from_sheets(log, session_manager)
+    log_2026, log_2025, output_data = sheets.load_sheets(path_to_credentials)
+
+    sheets.read_sessions_from_sheets(log_2025, session_manager) # initialise
+    sheets.read_sessions_from_sheets(log_2026, session_manager) 
     print("Success\n")
 
     session_manager.update_all_player_stats(registry)
@@ -30,8 +32,8 @@ def main():
         if cmd == "0":
             break
         if cmd == "1":
-            sheets.update_log_sheet(log, session_manager)
-            sheets.update_processed_sheet(processed, registry)
+            sheets.update_log_sheet(log_2026, session_manager)
+            sheets.update_processed_sheet(output_data, registry)
         if cmd == "2":
             input_hanlders.input_new_session(registry, session_manager)
         if cmd == "3":
@@ -43,5 +45,4 @@ def main():
     
 
 if __name__ == "__main__":
-    
     main()

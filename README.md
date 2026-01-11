@@ -1,5 +1,4 @@
 # Badminton Session Tracker
-
 A python application for keeping track of badminton sessions played with my friends. It tracks player participation and booking history using Google Sheets, and can determine who is due to book the next session.
 
 ## Features
@@ -21,7 +20,6 @@ players.py            # Player registry and lookups
 print_views.py        # Console output formatting
 
 input_handlers.py     # CLI input handling
-
 
 models/
 participant.py        # Participant 

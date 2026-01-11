@@ -28,6 +28,8 @@ class SessionManager:
         else:
             return True
 
+
+    # receives session data and creates new Session object 
     def new_session(self, date: str, who_played: list, who_booked: list = None):
         if who_booked == None:
             who_booked = []
