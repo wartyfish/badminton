@@ -32,17 +32,14 @@ def update_log_sheet(sheet, session_manager):
     sheet.batch_clear(["A2:C1000"])
 
     rows = []
-    for s in session_manager.sessions_sorted:
+    for s in session_manager.sessions_chronological:
         rows.append([
             s.date,
             ", ".join(sorted([p.name for p in s.who_booked])),
             ", ".join(sorted([p.name for p in s.who_played]))
         ])
     
-    if session_manager.is_most_recent_session_booked:
-        sheet.update("A3", rows)
-    else:
-        sheet.update("A2", rows)
+    sheet.update("A2", rows)
     
     print("Log updated successfully")
 

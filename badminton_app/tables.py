@@ -1,7 +1,7 @@
 def print_log(session_manager):
     print(f"Date{" "*4}|Booked{" "*9}|Played")
 
-    for s in session_manager.sessions_sorted:
+    for s in session_manager.sessions_chronological:
         who_booked = ", ".join(sorted(player.name for player in s.who_booked))
         who_played = ", ".join(sorted(player.name for player in s.who_played))
 

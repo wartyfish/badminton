@@ -5,10 +5,19 @@ class SessionManager:
         self.registry = registry
         self.sessions: list[Session] = []
     
+    # sessions sorted reverse chronologically (newest first)
+    # possibly now unused
     @property
     def sessions_sorted(self):
         if len(self.sessions) > 0:
             return sorted(self.sessions, key=lambda s: s.date_datetime, reverse=True)
+        else:
+            return self.sessions
+        
+    @property
+    def sessions_chronological(self):
+        if len(self.sessions) > 0:
+            return sorted(self.sessions, key=lambda s: s.date_datetime)
         else:
             return self.sessions
 

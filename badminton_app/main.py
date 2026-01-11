@@ -24,6 +24,7 @@ def main():
     tables.print_log(session_manager)
     tables.print_processed(registry)
 
+
     while True:
         cmd = input ("0=exit, 1=update sheets, 2=add new session, 3=modify session, 4=delete session\n")
         if cmd == "0":
