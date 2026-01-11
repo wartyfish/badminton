@@ -30,7 +30,7 @@ class SessionManager:
 
 
     # receives session data and creates new Session object 
-    def new_session(self, date: str, who_played: list, who_booked: list = None):
+    def new_session(self, date: str, who_played: list, who_booked: list = None) -> Session:
         if who_booked == None:
             who_booked = []
         
@@ -42,7 +42,7 @@ class SessionManager:
 
         return session
 
-    def update_player_stats(self, registry, session: Session):
+    def update_player_stats(self, registry, session: Session) -> None:
         if len(session.who_booked) == 0:
             to_book = [
                 player for player in sorted(
@@ -71,18 +71,18 @@ class SessionManager:
                 if player not in session.who_played:
                     player.sessions_played.append(session.date_datetime)
 
-    def update_all_player_stats(self, registry):
+    def update_all_player_stats(self, registry) -> None:
         reversed = self.sessions_sorted
         reversed.reverse()
         for session in reversed:
             self.update_player_stats(registry, session)
 
-    def reset_all_player_stats(self, registry):
+    def reset_all_player_stats(self, registry) -> None:
         for player in registry.players:
             registry.reset_player(player)
 
 
-    def delete_session(self, session: Session):
+    def delete_session(self, session: Session) -> None:
         for player in session.who_played:
             player.times_played -= 1
             try:

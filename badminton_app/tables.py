@@ -1,4 +1,4 @@
-def print_log(session_manager):
+def print_log(session_manager) -> None:
     print(f"Date{" "*4}|Booked{" "*9}|Played")
 
     for s in session_manager.sessions_chronological:
@@ -9,7 +9,7 @@ def print_log(session_manager):
 
     print()
 
-def print_processed(player_registry):
+def print_processed(player_registry) -> None:
     rows = []
 
     for player in sorted(
@@ -38,7 +38,7 @@ def print_processed(player_registry):
 
     print()
 
-def print_log_numbered(session_manager):
+def print_log_numbered(session_manager) -> None:
     n = 1
 
     for s in session_manager.sessions_sorted:

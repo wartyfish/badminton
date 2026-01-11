@@ -39,7 +39,7 @@ def read_sessions_from_sheets(log, session_manager) -> None:
     
         session_manager.new_session(date, played, booked)
 
-def update_log_sheet(sheet, session_manager):
+def update_log_sheet(sheet, session_manager) -> None:
     sheet.batch_clear(["A2:C1000"])
 
     rows = []
@@ -55,7 +55,7 @@ def update_log_sheet(sheet, session_manager):
     
     print("Log updated successfully")
 
-def update_processed_sheet(sheet, player_registry):
+def update_processed_sheet(sheet, player_registry) -> None:
     rows = []
 
     for player in sorted(
