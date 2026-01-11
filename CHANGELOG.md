@@ -12,6 +12,6 @@
     - tables.print_log() now prints table chronologically
 - New 2026 tab: loads data from 2025 and 26 log sheets
     - Program only updates 2026 log and 2026 stats
-    
+
 ## [v1.0.0] — 11-01-26
-- Current working version.
+- 2025 final working version.
