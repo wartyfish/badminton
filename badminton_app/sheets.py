@@ -22,7 +22,7 @@ def load_sheets(credentials_path) -> Sheets:
 
     book = client.open("Badminton Session Log")
 
-    return book.worksheet("2026 Log"), book.worksheet("2025 Log"), book.worksheet("2025 EoY stats")
+    return book.worksheet("2026 Log"), book.worksheet("2025 Log"), book.worksheet("Booking Stats")
        
 
 # reads data from gspread.Worksheet objects
