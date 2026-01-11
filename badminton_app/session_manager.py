@@ -1,5 +1,4 @@
 from models.session import Session
-from prompt_toolkit.shortcuts import radiolist_dialog
 
 class SessionManager:
     def __init__(self, registry):
