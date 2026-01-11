@@ -8,20 +8,6 @@ from pathlib import Path
 import os
 
 def main():
-    #p_shelf = Path("credentials_path.db")
-    #if not p_shelf.exists():
-    #    credentials_path = input("Input location of credentials:\n").strip('"')
-    #    p_credentials = Path(credentials_path)
-
-    #    if not p_credentials.exists():
-    #        raise ValueError(f"Path does not exist: {p_credentials}")
-
-    #    with shelve.open("credentials_path.db") as db:
-    #        db["path"] = str(p_credentials)
-    #else:
-    #    with shelve.open("credentials_path.db") as db:
-    #        credentials_path = Path(db["path"])
-
     path_to_credentials = Path(r"badminton_credentials.json")
 
     print("Fetching data from Google Sheets... ")
