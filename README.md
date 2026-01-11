@@ -5,7 +5,7 @@ A python application for keeping track of badminton sessions played with my frie
 - Reads session data from Google Sheets
 - Determines who is due to book
 - Tracks player participation statistics
-- Command-line interface for adding sessions
+- Command-line interface for adding, editing, and deleting sessions
 
 ## Project structure
 badminton_app/
