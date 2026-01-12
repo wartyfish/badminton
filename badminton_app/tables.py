@@ -1,7 +1,18 @@
-def print_log(session_manager) -> None:
+def print_log(session_manager, starting_point: int = 0, number_of_lines: int = 10, chronological=True) -> None:
     print(f"Date{" "*4}|Booked{" "*9}|Played")
 
-    for s in session_manager.sessions_chronological:
+    if chronological:
+        sessions = session_manager.sessions_chronological
+    else:
+        sessions = session_manager.sessions_reverse_chronological
+
+    starting_index = len(sessions) - starting_point - number_of_lines - 1
+    ending_index = starting_index + number_of_lines
+    if starting_index < 0:
+        starting_index = 0
+        ending_index = len(sessions) - 1
+
+    for s in sessions[starting_index: ending_index]:
         who_booked = ", ".join(sorted(player.name for player in s.who_booked))
         who_played = ", ".join(sorted(player.name for player in s.who_played))
 

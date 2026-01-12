@@ -1,11 +1,17 @@
 # Changelog
 
 ### Potential future features
-- CLI tables only load most recent 10 sessions from log (with option to load more)
+
 - Implement score-based ranking system: 
     - score = w1*(Booking deficit) - w2*(Sessions since last booking)
     - Booking deficit = expected bookings - actual bookings
     - w1, w2 = weights to calibrate
+
+### [v1.1.1] - 12-01-26 — Almost implemented, needs bugfix
+- tables.print_log() now allows user to enter:
+    - the starting index to print from from most recent back (most recent session selected by default) 
+    - how many lines to print (10 by default)
+    - chronology (chronological by default)
 
 ### [v1.1.0] — 11-01-26 — Implemented
 - Bookings log now sorts chronologically (newest last)

@@ -8,7 +8,7 @@ class SessionManager:
     # sessions sorted reverse chronologically (newest first)
     # possibly now unused
     @property
-    def sessions_sorted(self):
+    def sessions_reverse_chronological(self):
         if len(self.sessions) > 0:
             return sorted(self.sessions, key=lambda s: s.date_datetime, reverse=True)
         else:
@@ -23,7 +23,7 @@ class SessionManager:
 
     @property
     def is_most_recent_session_booked(self):
-        if len(self.sessions_sorted[0].who_booked) == 0:
+        if len(self.sessions_reverse_chronological[0].who_booked) == 0:
             return False
         else:
             return True
@@ -55,7 +55,7 @@ class SessionManager:
                 player.due_to_book = "yes"
             return 
         
-        # update stats if players have booked
+        # update stats if session has been booked
         else:  
             for player in registry.players:
                 player.due_to_book = ""
@@ -72,9 +72,8 @@ class SessionManager:
                     player.sessions_played.append(session.date_datetime)
 
     def update_all_player_stats(self, registry) -> None:
-        reversed = self.sessions_sorted
-        reversed.reverse()
-        for session in reversed:
+        sessions = self.sessions_chronological
+        for session in sessions:
             self.update_player_stats(registry, session)
 
     def reset_all_player_stats(self, registry) -> None:
