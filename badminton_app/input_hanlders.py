@@ -68,7 +68,7 @@ def modify_session(registry, session_manager):
     print()
     while True:
         print("Enter fields to change their value. Enter or delete players by entering their name.")
-        date = input("Date (dd/mm/yy): ")
+        date = input("Date (dd/mm/yy): ").strip()
         if date == "0":
             break
         booked = input("Who booked: ").strip().split(", ")
@@ -85,9 +85,10 @@ def modify_session(registry, session_manager):
         print("Changes: ")
         if date != "":
             try:
-                datetime.datetime.strptime(date, "%d/%m/%y")
+                datetime.strptime(date, "%d/%m/%y")
                 print(f"{selected.date} → {date}")
-            except:
+            except Exception as e:
+                print(f"Exception: {e}")
                 print("Date must be dd/mm/yy")
         else:
             date = selected.date

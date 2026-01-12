@@ -1,9 +1,11 @@
 # Changelog
 
-## Jan 26 update
-
-### [Unreleased ] — Planned updates
-
+### Potential future features
+- CLI tables only load most recent 10 sessions from log (with option to load more)
+- Implement score-based ranking system: 
+    - score = w1*(Booking deficit) - w2*(Sessions since last booking)
+    - Booking deficit = expected bookings - actual bookings
+    - w1, w2 = weights to calibrate
 
 ### [v1.1.0] — 11-01-26 — Implemented
 - Bookings log now sorts chronologically (newest last)
