@@ -1,6 +1,5 @@
 import datetime
 import tables
-import tables
 from datetime import datetime, timedelta
 
 def input_new_session(registry, session_manager):
@@ -155,3 +154,33 @@ def delete_session(session_manager):
         print("Session deleted.")
 
     
+def print_log(session_manager, starting_point: int=0, number_of_lines: int=10, chronological=True):
+    if chronological:
+        sessions = session_manager.sessions_chronological
+    else:
+        sessions = session_manager.sessions_reverse_chronological
+    
+    total_sessions = len(sessions)
+    line = starting_point
+
+    while line < total_sessions:
+        tables.print_log(
+            session_manager=session_manager,
+            starting_point=line,
+            number_of_lines=number_of_lines,
+            chronological=chronological
+            )
+        
+        line += number_of_lines
+
+        if line < total_sessions:
+            if total_sessions - line >= number_of_lines:
+                cmd = input(f"Load {number_of_lines} more sessions? (y/n)\n").strip().lower()
+            else:
+                cmd = input(f"Load {total_sessions - line} more sessions? (y/n)\n").strip().lower()
+        
+        if cmd == "y":
+            pass
+        else:
+            break
+        

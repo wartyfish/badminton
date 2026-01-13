@@ -8,9 +8,12 @@ def print_log(session_manager, starting_point: int = 0, number_of_lines: int = 1
 
     starting_index = len(sessions) - starting_point - number_of_lines 
     ending_index = starting_index + number_of_lines
+
     if starting_index < 0:
         starting_index = 0
         ending_index = len(sessions) - 1
+    else:
+        print("[...]")
 
     for s in sessions[starting_index: ending_index]:
         who_booked = ", ".join(sorted(player.name for player in s.who_booked))
@@ -18,7 +21,7 @@ def print_log(session_manager, starting_point: int = 0, number_of_lines: int = 1
 
         print(f"{s.date:8}|{who_booked:15}|{who_played}")
 
-    print()
+
 
 def print_processed(player_registry) -> None:
     rows = []

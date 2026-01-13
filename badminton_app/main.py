@@ -3,9 +3,7 @@ import tables
 from session_manager import SessionManager
 from players import PlayerRegistry
 import input_hanlders
-import shelve
 from pathlib import Path
-import os
 
 def main():
     path_to_credentials = Path(r"badminton_credentials.json")
@@ -23,7 +21,7 @@ def main():
 
     session_manager.update_all_player_stats(registry)
 
-    tables.print_log(session_manager)
+    input_hanlders.print_log(session_manager=session_manager)
     tables.print_processed(registry)
 
 

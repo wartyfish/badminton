@@ -98,4 +98,3 @@ class SessionManager:
 
         self.sessions.remove(session)
 
-    
