@@ -6,7 +6,7 @@ def print_log(session_manager, starting_point: int = 0, number_of_lines: int = 1
     else:
         sessions = session_manager.sessions_reverse_chronological
 
-    starting_index = len(sessions) - starting_point - number_of_lines - 1
+    starting_index = len(sessions) - starting_point - number_of_lines 
     ending_index = starting_index + number_of_lines
     if starting_index < 0:
         starting_index = 0
