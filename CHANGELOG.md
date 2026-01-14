@@ -1,11 +1,11 @@
 # Changelog
 
 ### Potential future features
-
-- Implement score-based ranking system: 
+- Score-based ranking system: 
     - score = w1*(Booking deficit) - w2*(Sessions since last booking)
     - Booking deficit = expected bookings - actual bookings
     - w1, w2 = weights to calibrate
+- bext.get_key() for cleaner input handling
 
 ### [v1.1.1] - 12-01-26 — Almost implemented, needs bugfix
 - tables.print_log() now allows user to enter:

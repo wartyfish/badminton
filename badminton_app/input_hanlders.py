@@ -169,24 +169,26 @@ def print_log(session_manager, starting_point: int=0, number_of_lines: int=10, c
     line = starting_point
     chunk_length = number_of_lines  # constant
 
-    while line < total_sessions:
+    while remaining_sessions >= 0:
         tables.print_log(
             session_manager=session_manager,
             number_of_lines=number_of_lines,
             chronological=chronological
             )
         
-        remaining_sessions = total_sessions - chunk_length
+        remaining_sessions =- chunk_length
 
         if remaining_sessions > number_of_lines:
             number_of_lines += chunk_length
             cmd = input(f"Load {chunk_length} more sessions? (y/n)\n").strip().lower()
+        if remaining_sessions <= 0:
+            break
         else:
             number_of_lines = total_sessions
             cmd = input(f"Load {total_sessions - chunk_length} more sessions? (y/n)\n").strip().lower()
         
         if cmd == "y":
-            clear()
+            #clear()
             pass
         else:
             break
