@@ -1,6 +1,11 @@
 import datetime
 import tables
 from datetime import datetime, timedelta
+import os
+
+import os
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def input_new_session(registry, session_manager):
     while True:
@@ -162,24 +167,26 @@ def print_log(session_manager, starting_point: int=0, number_of_lines: int=10, c
     
     total_sessions = len(sessions)
     line = starting_point
+    chunk_length = number_of_lines  # constant
 
     while line < total_sessions:
         tables.print_log(
             session_manager=session_manager,
-            starting_point=line,
             number_of_lines=number_of_lines,
             chronological=chronological
             )
         
-        line += number_of_lines
+        remaining_sessions = total_sessions - chunk_length
 
-        if line < total_sessions:
-            if total_sessions - line >= number_of_lines:
-                cmd = input(f"Load {number_of_lines} more sessions? (y/n)\n").strip().lower()
-            else:
-                cmd = input(f"Load {total_sessions - line} more sessions? (y/n)\n").strip().lower()
+        if remaining_sessions > number_of_lines:
+            number_of_lines += chunk_length
+            cmd = input(f"Load {chunk_length} more sessions? (y/n)\n").strip().lower()
+        else:
+            number_of_lines = total_sessions
+            cmd = input(f"Load {total_sessions - chunk_length} more sessions? (y/n)\n").strip().lower()
         
         if cmd == "y":
+            clear()
             pass
         else:
             break
