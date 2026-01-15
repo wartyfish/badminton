@@ -43,7 +43,7 @@ def input_new_session(registry, session_manager):
             break
 
 def session_selector(session_manager):
-    numbered_sessions = dict(zip(range(1, len(session_manager.sessions_sorted)+1), session_manager.sessions_sorted))
+    numbered_sessions = dict(zip(range(1, len(session_manager.sessions_chronological)+1), session_manager.sessions_chronological))
 
     print("Select session to modify:")
     tables.print_log_numbered(session_manager)

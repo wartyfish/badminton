@@ -13,7 +13,6 @@ def load_sheets(credentials_path) -> Sheets:
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive"
     ]
-
     try:
         creds = Credentials.from_service_account_file(credentials_path, scopes=scopes)
     except Exception as e:
