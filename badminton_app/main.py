@@ -4,11 +4,14 @@ from session_manager import SessionManager
 from players import PlayerRegistry
 import input_hanlders
 from pathlib import Path
+import os
 
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def main():
     path_to_credentials = Path(r"badminton_credentials.json")
-
+    clear()
     print("Fetching data from Google Sheets... ")
 
     registry = PlayerRegistry()
@@ -22,7 +25,8 @@ def main():
 
     session_manager.update_all_player_stats(registry)
 
-    tables.print_log(session_manager)
+    input_hanlders.print_log(session_manager)
+    print()
     tables.print_processed(registry)
 
 

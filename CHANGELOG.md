@@ -15,9 +15,14 @@ Completed
     - chronology (chronological by default)    
 - refactored sessions.sessions_sorted property  
 - fix broken print_log() logic
+- clears log table and reloads 
 TODO:
-    - clears log table and reloads            (NOT DONE)
-    - because of sessoins_sorted refactoring, some tables print in reverse order. Needs addressing.
+- Fix "Modify Session" logic
+    - ~~Implement working escape~~ DONE
+    - Get table to load chronologically
+    - Load table in chunks again
+- Move table chunking logic to tables.print_log()
+
 ### [v1.1.0] — 11-01-26 — Implemented
 - Bookings log now sorts chronologically (newest last)
     - New property, session_manager.sessions_chronologically, added. Returns session log chronologically.

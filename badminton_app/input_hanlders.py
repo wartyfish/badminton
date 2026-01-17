@@ -54,6 +54,9 @@ def session_selector(session_manager):
         select = input()
         try:
             select = int(select)
+            if select == 0:
+                return None
+            
             if select in numbered_sessions:
                 selected_session = numbered_sessions[select]
                 break
@@ -67,6 +70,9 @@ def session_selector(session_manager):
 def modify_session(registry, session_manager):
     selected = session_selector(session_manager)
     
+    if selected == None:
+        return None
+
     print()
     print(selected)
     print()
@@ -159,37 +165,18 @@ def delete_session(session_manager):
         print("Session deleted.")
 
     
-def print_log(session_manager, starting_point: int=0, number_of_lines: int=10, chronological=True):
-    if chronological:
-        sessions = session_manager.sessions_chronological
-    else:
-        sessions = session_manager.sessions_reverse_chronological
+def print_log(session_manager, chunk_increment=10):
+    chunk_size = chunk_increment
+    unprinted_sessions = tables.print_log(session_manager, chunk_size)
     
-    total_sessions = len(sessions)
-    line = starting_point
-    chunk_length = number_of_lines  # constant
-
-    while remaining_sessions >= 0:
-        tables.print_log(
-            session_manager=session_manager,
-            number_of_lines=number_of_lines,
-            chronological=chronological
-            )
-        
-        remaining_sessions =- chunk_length
-
-        if remaining_sessions > number_of_lines:
-            number_of_lines += chunk_length
-            cmd = input(f"Load {chunk_length} more sessions? (y/n)\n").strip().lower()
-        if remaining_sessions <= 0:
-            break
-        else:
-            number_of_lines = total_sessions
-            cmd = input(f"Load {total_sessions - chunk_length} more sessions? (y/n)\n").strip().lower()
-        
+    while unprinted_sessions > 0:
+        next_chunk = min(unprinted_sessions, chunk_size)
+        cmd = input(f"Print {next_chunk} more rows? (y/n) ").strip().lower()
         if cmd == "y":
-            #clear()
-            pass
+            chunk_size += next_chunk
+            clear()
+            unprinted_sessions = tables.print_log(session_manager, chunk_size)
         else:
+            clear()
+            tables.print_log(session_manager, chunk_size)
             break
-        

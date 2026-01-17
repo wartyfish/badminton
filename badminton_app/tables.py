@@ -1,23 +1,29 @@
-def print_log(session_manager, starting_point: int = 0, number_of_lines: int = 10, chronological=True) -> None:
-    print(f"Date{" "*4}|Booked{" "*9}|Played")
+def print_log(session_manager, chunk_size: int = 10) -> int:
+    sessions = session_manager.sessions_chronological
+    total_sessions = len(sessions)
+    lines_to_print = chunk_size
+    unprinted_sessions = total_sessions - chunk_size
 
-    if chronological:
-        sessions = session_manager.sessions_chronological
-    else:
-        sessions = session_manager.sessions_reverse_chronological
+    def print_table(sessions,  number_of_lines):
+        print(f"Date{" "*4}|Booked{" "*9}|Played")
+            
+        sessions
 
-    starting_index = len(sessions) - starting_point - number_of_lines 
-    ending_index = starting_index + number_of_lines
+        starting_index = len(sessions) - number_of_lines 
+        ending_index = starting_index + number_of_lines
 
-    if starting_index < 0:
-        starting_index = 0
-        ending_index = len(sessions) - 1
+        if starting_index < 0:
+            starting_index = 0
+            ending_index = len(sessions) - 1
 
-    for s in sessions[starting_index: ending_index]:
-        who_booked = ", ".join(sorted(player.name for player in s.who_booked))
-        who_played = ", ".join(sorted(player.name for player in s.who_played))
+        for s in sessions[starting_index: ending_index]:
+            who_booked = ", ".join(sorted(player.name for player in s.who_booked))
+            who_played = ", ".join(sorted(player.name for player in s.who_played))
 
-        print(f"{s.date:8}|{who_booked:15}|{who_played}")
+            print(f"{s.date:8}|{who_booked:15}|{who_played}")
+
+    print_table(sessions, lines_to_print)
+    return unprinted_sessions
 
 
 
