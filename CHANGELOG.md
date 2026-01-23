@@ -22,6 +22,7 @@ TODO:
     - Get table to load chronologically
     - Load table in chunks again
 - Move table chunking logic to tables.print_log()
+    - Table/TUI overhaul needed: rich and textural (latter seems better for interactive tables)
 
 ### [v1.1.0] — 11-01-26 — Implemented
 - Bookings log now sorts chronologically (newest last)
