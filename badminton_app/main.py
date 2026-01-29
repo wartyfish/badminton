@@ -44,6 +44,7 @@ def main():
         if cmd == "4":
             input_hanlders.delete_session(session_manager)
             tables.print_log(session_manager)
+            print()
             tables.print_processed(registry)
     
 

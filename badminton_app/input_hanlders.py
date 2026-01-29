@@ -39,7 +39,7 @@ def input_new_session(registry, session_manager):
             tables.print_processed(registry)
 
             break
-        if cmd == "2":
+        if cmd == "1":
             break
 
 def session_selector(session_manager):
@@ -78,6 +78,7 @@ def modify_session(registry, session_manager):
     print()
     while True:
         print("Enter fields to change their value. Enter or delete players by entering their name.")
+
         date = input("Date (dd/mm/yy): ").strip()
         if date == "0":
             break
@@ -93,6 +94,7 @@ def modify_session(registry, session_manager):
 
         print()
         print("Changes: ")
+
         if date != "":
             try:
                 datetime.strptime(date, "%d/%m/%y")
@@ -105,8 +107,9 @@ def modify_session(registry, session_manager):
 
         if len(booked) > 0:
             added_b   = [p for p in booked if p not in selected_who_booked]
-            if added_b[0] == "":
-                added_b.clear()
+            if len(added_b) > 0:
+                if added_b[0] == "":       # does this block actually do anything?
+                    added_b.clear()
             removed_b = [p for p in booked if p in selected_who_booked]
 
             if len(added_b) > 0:
@@ -116,8 +119,10 @@ def modify_session(registry, session_manager):
         
         if len(played) > 0:
             added_p =   [p for p in played if p not in selected_who_played]
-            if added_p[0] == "":
-                added_p.clear()
+            if len(added_p) > 0:
+                if added_p[0] == "":
+                    added_p.clear()
+
             removed_p = [p for p in played if p in selected_who_played]
 
             if len(added_p) > 0:
@@ -150,6 +155,7 @@ def modify_session(registry, session_manager):
             session_manager.update_all_player_stats(registry)
 
             tables.print_log(session_manager)
+            print()
             tables.print_processed(registry)
 
             break

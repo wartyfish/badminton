@@ -18,11 +18,13 @@ Completed
 - clears log table and reloads 
 TODO:
 - Fix "Modify Session" logic
-    - ~~Implement working escape~~ DONE
+    - ~~Implement working escape~~ DONE 12/01/26
     - Get table to load chronologically
     - Load table in chunks again
+    - ~~Fix bug that causes crash when players/bookers subtracted without players/booekrs also being added to session~~ DONE 29/01/26 
 - Move table chunking logic to tables.print_log()
     - Table/TUI overhaul needed: rich and textural (latter seems better for interactive tables)
+- ~~Fix input bug in Add Session logic: pressing 1 to commit does nothing.~~ DONE 29/01/26
 
 ### [v1.1.0] — 11-01-26 — Implemented
 - Bookings log now sorts chronologically (newest last)
