@@ -1,10 +1,8 @@
-import sheets
-import tables
+import sheets, tables, input_hanlders, os, time
 from session_manager import SessionManager
 from players import PlayerRegistry
-import input_hanlders
 from pathlib import Path
-import os
+
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -21,13 +19,16 @@ def main():
 
     sheets.read_sessions_from_sheets(log_2025, session_manager) # initialise
     sheets.read_sessions_from_sheets(log_2026, session_manager) 
-    print("Success\n")
+    print("Success")
+    time.sleep(1)
+    clear()
 
     session_manager.update_all_player_stats(registry)
 
-    input_hanlders.print_log(session_manager)
-    print()
-    tables.print_processed(registry)
+    #input_hanlders.print_log(session_manager)
+    #tables.print_log(session_manager)
+    #tables.print_processed(registry)
+    tables.print_both(session_manager, registry)
 
 
     while True:

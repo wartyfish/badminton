@@ -1,60 +1,74 @@
-def print_log(session_manager, chunk_size: int = 10) -> int:
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+from rich.columns import Columns
+from rich import box
+
+
+def print_log(session_manager) -> Table:
     sessions = session_manager.sessions_chronological
-    total_sessions = len(sessions)
-    lines_to_print = chunk_size
-    unprinted_sessions = total_sessions - chunk_size
+    table = Table(box=box.ROUNDED)
 
-    def print_table(sessions,  number_of_lines):
-        print(f"Date{" "*4}|Booked{" "*9}|Played")
-            
-        sessions
+    table.add_column("Date", no_wrap=True)
+    table.add_column("Booked")
+    table.add_column("Played")
 
-        starting_index = len(sessions) - number_of_lines 
-        ending_index = starting_index + number_of_lines
+    for s in sessions:
+        who_booked = ", ".join(sorted(player.name for player in s.who_booked))
+        who_played = ", ".join(sorted(player.name for player in s.who_played))
 
-        if starting_index < 0:
-            starting_index = 0
-            ending_index = len(sessions) - 1
-
-        for s in sessions[starting_index: ending_index]:
-            who_booked = ", ".join(sorted(player.name for player in s.who_booked))
-            who_played = ", ".join(sorted(player.name for player in s.who_played))
-
-            print(f"{s.date:8}|{who_booked:15}|{who_played}")
-
-    print_table(sessions, lines_to_print)
-    return unprinted_sessions
+        table.add_row(s.date, who_booked, who_played)
+    
+    #console = Console()
+    #console.print(table)
+    return table
 
 
+def print_processed(player_registry) -> Table:
+    table = Table(box=box.ROUNDED)
+    table.add_column("Name", no_wrap=True)
+    table.add_column("Sessions played", justify="right", width=15)
+    table.add_column("Sessions booked", justify="right", width=15)
+    table.add_column("Sessions since last booking", justify="right", width=15)
+    table.add_column("Bookings per session", justify="right", width=15)
+    table.add_column("Due to book?")
 
-def print_processed(player_registry) -> None:
     rows = []
-
     for player in sorted(
         player_registry.all(), 
         key=lambda p: (-1* p.sessions_since_last_booking, p.bookings_per_session, p.most_recent_booking)
     ):
         rows.append([
             player.name,
-            player.times_played,
-            player.times_booked,
-            player.sessions_since_last_booking,
-            round(player.bookings_per_session, 2),
+            str(player.times_played),
+            str(player.times_booked),
+            str(player.sessions_since_last_booking),
+            str(round(player.bookings_per_session, 2)),
             player.due_to_book
         ])
 
-    print(f"{" "*10}|{"Sessions".center(15)}|{"Sessions".center(15)}|{"Sessions since".center(15)}|{"Bookings per".center(15)}|{"Due to".center(10)}")
-    print(f"{"Name".center(10)}|{"played".center(15)}|{"booked ".center(15)}|{"last booking".center(15)}|{"session".center(15)}|{"book?".center(10)}")
-
     for row in rows:
-        print(f"{row[0]:9} |",end="")
-        print(f"{row[1]:14} |",end="")
-        print(f"{row[2]:14} |",end="")
-        print(f"{row[3]:14} |",end="")
-        print(f"{row[4]:14} |",end="")
-        print(f"{row[5]:>9}")        
+        table.add_row(row[0], row[1], row[2], row[3], row[4], row[5])
 
-    print()
+    #console = Console()
+    #console.print(table)
+    return table
+
+def print_both(session_manager, player_registry):
+    log_sheet   = print_log(session_manager)
+    stats       = print_processed(player_registry)
+
+    panel = Panel.fit(
+        Columns([log_sheet, stats]),
+        box=box.MINIMAL,
+        border_style="none"
+        )
+
+    console = Console()
+    console.print(panel)
+    
+
+
 
 def print_log_numbered(session_manager) -> None:
     n = 1

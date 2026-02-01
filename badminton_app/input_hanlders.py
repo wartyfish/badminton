@@ -173,16 +173,16 @@ def delete_session(session_manager):
     
 def print_log(session_manager, chunk_increment=10):
     chunk_size = chunk_increment
-    unprinted_sessions = tables.print_log(session_manager, chunk_size)
+    unprinted_sessions = tables.print_log(session_manager)
     
     while unprinted_sessions > 0:
-        next_chunk = min(unprinted_sessions, chunk_size)
+        next_chunk = min(unprinted_sessions)
         cmd = input(f"Print {next_chunk} more rows? (y/n) ").strip().lower()
         if cmd == "y":
             chunk_size += next_chunk
             clear()
-            unprinted_sessions = tables.print_log(session_manager, chunk_size)
+            unprinted_sessions = tables.print_log(session_manager)
         else:
             clear()
-            tables.print_log(session_manager, chunk_size)
+            tables.print_log(session_manager)
             break
