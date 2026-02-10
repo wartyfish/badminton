@@ -7,7 +7,19 @@
     - w1, w2 = weights to calibrate
 - bext.get_key() for cleaner input handling
 
-### [v1.1.1] — WIP
+### [v1.2.0] — Rich CLI overhall — WIP
+TODO
+- Fix "Modify Session" logic
+    - Get table to load chronologically
+    - Load table in chunks again
+- Rich tables for log sheet editing
+- Update Due To Book logic to take bookings/session into account
+
+Completed
+- Log and stats tables now rendered using rich library. 
+    - Both tables rendered side by side inside a Panel object. 01/02/26
+
+### [v1.1.1] — 01-02-26 — Implemented
 Completed
 - tables.print_log() now allows user to enter:
     - the starting index to print from from most recent back (most recent session selected by default)                   
@@ -22,12 +34,7 @@ Bug fixes
 - Fix bug that causes crash when players/bookers subtracted without players/booekrs also being added to session. DONE 29/01/26 
 - Fix input bug in Add Session logic: pressing 1 to commit does nothing. DONE 29/01/26
 
-TODO
-- Fix "Modify Session" logic
-    - Get table to load chronologically
-    - Load table in chunks again
-- Move table chunking logic to tables.print_log()
-    - Table/TUI overhaul needed: rich and textural (latter seems better for interactive tables)
+
 
 
 ### [v1.1.0] — 11-01-26 — Implemented

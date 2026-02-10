@@ -1,3 +1,5 @@
 .venv/
 badminton_app/badminton_credentials.json
 badminton_app
+__pycache__/
+*.pyc
