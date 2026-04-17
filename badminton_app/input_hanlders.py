@@ -28,15 +28,15 @@ def input_new_session(registry, session_manager):
 
         cmd = input("0=exit, 1=commit, 2=reject ")
         if cmd == "0":
+            break
+        if cmd == "1":
             new_session = session_manager.new_session(date, played, booked)
             session_manager.update_player_stats(registry, new_session)
         
             tables.print_log(session_manager)
             tables.print_processed(registry)
-
-            break
         if cmd == "2":
-            break
+            continue
 
 def session_selector(session_manager):
     numbered_sessions = dict(zip(range(1, len(session_manager.sessions_chronological)+1), session_manager.sessions_chronological))
